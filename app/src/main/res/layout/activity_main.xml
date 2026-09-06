@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Legacy SurfaceView, not TextureView/CameraX: android.hardware.Camera (API1)
+         is the only camera API that reliably runs on Note 2's stock/KitKat firmware. -->
+    <SurfaceView
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/predicted_letter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="24dp"
+        android:textSize="64sp"
+        android:textColor="#FFFFFF"
+        android:shadowColor="#000000"
+        android:shadowDx="0" android:shadowDy="0" android:shadowRadius="8"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/spoken_buffer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="16dp"
+        android:background="#88000000"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:text="" />
+
+</FrameLayout>

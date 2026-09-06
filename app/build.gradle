@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.michael.aslspeak'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.michael.aslspeak"
+        // minSdk 19 (Android 4.4 KitKat) is the practical floor for on-device TFLite.
+        // Galaxy Note 2 (GT-N7100) ships on 4.1.2 but officially updates to 4.4.2 (KitKat),
+        // so this is the real stretch target, not stock-firmware-only.
+        minSdkVersion 19
+        targetSdkVersion 33
+        versionCode 1
+        versionName "0.1.0"
+    }
+
+    aaptOptions {
+        // keep .tflite model files uncompressed so they can be mmap'd instead of copied to heap
+        noCompress "tflite"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+
+    // CPU-only TFLite runtime. Pinned to a version whose AAR still supports minSdk 19
+    // (newer TFLite releases raise the floor to API 21+). No GPU/NNAPI delegate is used:
+    // the Note 2's Mali-400MP4 is OpenGL ES 2.0 only and exposes no compute path, and its
+    // SoC (Exynos 4412) predates NNAPI entirely, so CPU (XNNPACK) is the only real target.
+    implementation 'org.tensorflow:tensorflow-lite:2.9.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.0'
+}
